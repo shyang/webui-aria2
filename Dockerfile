@@ -4,9 +4,11 @@ FROM debian:8
 RUN groupadd -r dummy && useradd -r -g dummy dummy -u 1000
 
 # webui + aria2
-RUN apt-get update \
-	&& apt-get install -y aria2 busybox curl unzip \
-	&& rm -rf /var/lib/apt/lists/*
+RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+RUN sed -i 's/security.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get install -y aria2 busybox curl unzip
+RUN rm -rf /var/lib/apt/lists/*
 
 ADD ./docs /webui-aria2
 
